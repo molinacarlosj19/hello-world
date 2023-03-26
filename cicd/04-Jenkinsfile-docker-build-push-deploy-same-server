@@ -24,8 +24,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker_credential') {
-                        docker.image("molinacarlosj19/hello-world:${TAG}").push()
-                        docker.image("molinacarlosj19/hello-world:${TAG}").push("latest")
+                        def customImage = docker.build("molinacarlosj19/hello-world:${TAG}")
+                    	customImage.push()
                     }
                 }
             }
