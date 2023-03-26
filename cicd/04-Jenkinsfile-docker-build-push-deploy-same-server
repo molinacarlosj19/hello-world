@@ -6,6 +6,7 @@ pipeline {
     environment {
         DATE = new Date().format('yy.M')
         TAG = "${DATE}.${BUILD_NUMBER}"
+	imagename = "molinacarlosj/hello-world"
     }
     stages {
         stage ('Build') {
@@ -13,13 +14,13 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage('Docker Build') {
-            steps {
-                script {
-                    docker.build("molinacarlosj19/hello-world:${TAG}")
-                }
-            }
-        }
+        stage('Building image') {
+		steps{
+			script {
+			dockerImage = docker.build imagename
+			}
+		}
+	}
 	    stage('Pushing Docker Image to Dockerhub') {
             steps {
                 script {
